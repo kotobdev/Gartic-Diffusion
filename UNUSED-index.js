@@ -1,3 +1,8 @@
+
+//THIS FILE IS ENTIRELY UNUSED!!!!
+//this was before I realized i should probably be using WebSockets
+
+
 const express = require('express');
 const path = require('path');
 
@@ -12,7 +17,7 @@ const threadItem = {
 
 const threadItem2 = {
     url: '',
-    text: 'skeleton mewing,,, looxmaxxing,,',
+    text: 'This is a test',
     author: 'user2',
 }
 

@@ -157,6 +157,7 @@ function base64ToPNG(base64String, outputPath) {
 }
 
 async function genImage(posPrompt, negPrompt, filename, sampleMode) {
+    //sample mode isn't used (YET!!!)
     if(sampleMode == null) {
         sampleMode = "Euler a";
     }
