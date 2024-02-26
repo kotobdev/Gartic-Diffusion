@@ -1,0 +1,168 @@
+body {
+    font-family: 'Courier New', monospace;
+    background-color: #000;
+    color: #fff;
+    margin: 0;
+    padding: 20px;
+  }
+  .search-bar {
+    font-family:inherit;
+    margin-bottom: 20px;
+    border-radius: 0px;
+    border-bottom: .1rem solid var(--accent-unhover);
+    transition: border-image 0.5s;
+  }
+  .search-bar input[type="text"] {
+    font-family:inherit;
+    width: 300px;
+    padding: 8px;
+    font-size: 16px;
+    color: white;
+    background: none;
+    border-radius: 0px;
+    border: 0;
+    border-image: linear-gradient(0.25turn, white, white, white);
+    border-image-slice: 1;
+    border-bottom: 0.1rem solid transparent;
+    transition: border-image 0.5s;
+  }
+  .search-bar input[type="text"]:focus {
+      outline-width: 0px;
+      outline: none;
+      border-bottom: 0.1rem solid transparent;
+      border-image: linear-gradient(0.25turn, rgb(255, 255, 255), rgba(56,2,155,0));
+      border-image-slice: 1;
+  }
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-gap: 20px;
+  }
+  .grid-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+    background-color: rgb(255, 255, 255);     
+    aspect-ratio: 1;
+  }
+  .grid-item img {
+    width: 100%;
+    height: 100%;
+    object-fit:cover;
+    transition: transform 0.3s ease;
+  }
+  .grid-item:hover img {
+    transform: scale(1.1);
+  }
+  .label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    font-size: 14px;
+    text-align: center;
+    transition: opacity 0.3s ease;
+    opacity: 0;
+  }
+  .grid-item:hover .label {
+    opacity: 1;
+  }
+  .header {
+    background-color: rgb(0, 0, 0);
+    padding: 20px;
+    padding-left: 0px;
+    padding-right: 0px;
+    text-align: left;
+    display: inline-block;
+  }
+  .header h1 {
+    color: #fff;
+    background-color: rgb(0, 0, 0);
+    font-size: 24px;
+    font-family: 'Courier New', monospace;
+    margin: 0;
+    display: inline-block;
+  }
+  .header h2 {
+    color: rgb(127, 127, 127);
+    font-size: 18px;
+    font-family: 'Courier New', monospace;
+    margin: 10px;
+    display: inline-block;
+  }
+  .header h2:hover {
+    color: rgb(255, 255, 255);
+  }
+  .button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    background-color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+    border: 0.1rem solid #fff;
+    border-radius: 0px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  .button:hover {
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    cursor:pointer;
+  }
+  .header .buttonh2 {
+      color: rgb(127, 127, 127);
+      font-size: 18px;
+      font-family: 'Courier New', monospace;
+      margin: 5px;
+      display: inline-block;
+      border: 0;
+      background-color: transparent;
+      font-weight: bold;
+      text-decoration: none;
+  }
+  .header .buttonh2:hover {
+      color: rgb(255, 255, 255);
+      cursor:pointer;
+  }
+  .header .buttons {
+      display: inline-block;
+  }
+  .header .logo {
+      display: inline-block;
+      background-color: rgb(0, 0, 0);
+  }
+  .smallh2 {
+    color: rgb(127, 127, 127);
+    font-size: 12px;
+    font-family: 'Courier New', monospace;
+    margin: 10px;
+  }
+  .normh2 {
+    color: rgb(127, 127, 127);
+    font-size: 18px;
+    font-family: 'Courier New', monospace;
+  }
+  .checkbox {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #fff;
+    background-color: #000;
+    transition: background-color 0.3s ease;
+  } 
+  .checkbox:checked {
+    background-color: #fff;
+  }
+  .overlay{
+    background-color: rgba(0, 0, 0, 0.500);
+    padding: 10px;
+    margin: 4px;
+    border-radius: 4px;
+    color: white;
+  }

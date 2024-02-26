@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gartic Diffusion</title>
+    <meta content="Gartic Diffusion" property="og:title" />
+    <meta content="like Gartic Phone but with more art theft" property="og:description" />
+    <meta content="https://garticdiffusion.kotob.dev/logo2.png" property="og:image" />   
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background-color: #000;
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            background-color: rgb(0, 0, 0);
+            color: rgb(255, 255, 255);
+            border: 0.1rem solid #fff;
+            border-radius: 0px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: rgb(255, 255, 255);
+            color: rgb(0, 0, 0);
+            cursor: pointer;
+        }
+
+        .smallh2 {
+            color: rgb(127, 127, 127);
+            font-size: 12px;
+            font-family: 'Courier New', monospace;
+            margin: 10px;
+        }
+
+        .normh2 {
+            color: rgb(127, 127, 127);
+            font-size: 18px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .title {
+            color: rgb(255, 255, 255);
+            font-size: 86pt;
+            font-family: 'Courier New', monospace;
+            margin: 10px;
+        }
+
+        /*message box: white, rounded, black text inside*/
+        .message-box {
+            background-color: #fff;
+            border-radius: 8px;
+            color: #000;
+            padding: 20px;
+            margin: 20px;
+            align-self: flex-start;
+        }
+
+        /*text for text box*/
+        .message-box .text {
+            font-size: 16px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .checkbox {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #fff;
+            background-color: #000;
+            transition: background-color 0.3s ease;
+        }
+
+        .checkbox:checked {
+            background-color: #fff;
+        }
+
+        /*Global div: centers all elements inside horizontally and vertically (stacked on top of each other)*/
+        .main-center {
+            margin:0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height:100vh;
+            flex-direction: column;
+        }
+
+        .end-center {
+            margin:0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: row;
+        }
+
+        /*MessageWIndow: A box for displaying multiple "messages": .end-image and .message-box. Thin white outline, rounded.*/
+        .message-window {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            border-radius: 8px;
+            background-color: rgb(0, 0, 0);
+            border: 0.1rem solid #ffffff;
+            /*width: 80%;*/
+            height: 50%;
+            box-shadow: 0 0 0px #ffffff; /* Adjust color and size as needed */
+            margin: 10px;
+            overflow-y: auto;
+        }
+        .main-image {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            background-color: rgb(255, 255, 255);     
+            aspect-ratio: 1;
+            width: 60vh;
+            height: 60vh;
+            box-shadow: 0 0 10px #ffffff; /* Adjust color and size as needed */
+        }
+        .main-image img {
+            width: 100%;
+            height: 100%;
+            object-fit:cover;
+            transition: transform 0.3s ease;
+        }
+        .end-image {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            background-color: rgb(255, 255, 255);     
+            aspect-ratio: 1;
+            width: 35%;
+            height: 30%;
+            margin: 5%;
+            box-shadow: 0 0 25px #ffffff; /* Adjust color and size as needed */
+            align-self: end;
+        }
+        .end-image img {
+            width: 100%;
+            height: 100%;
+            object-fit:cover;
+            transition: transform 0.3s ease;
+        }
+        .input-bar {
+            font-family:inherit;
+            border-radius: 0px;
+            border-bottom: .1rem solid var(--accent-unhover);
+            transition: border-image 0.5s;
+            padding: 32px;
+            width: 50%;
+        }
+        .input-bar input[type="text"] {
+            font-family:inherit;
+            padding: 8px;           
+            font-size: 16px;
+            color: white;
+            background: none;
+            border-radius: 0px;
+            border: 1px;
+            border-image: linear-gradient(0.25turn, white, white, white);
+            border-image-slice: 1;
+            border-bottom: 0.1rem solid transparent;
+            width: 100%;
+            transition: border-image 0.5s;
+        }
+        .input-bar input[type="text"]:focus {
+            outline-width: 0px;
+            outline: none;
+            border-bottom: 0.1rem solid transparent;
+            border-image: linear-gradient(0.25turn, rgb(255, 255, 255), rgba(56,2,155,0));
+            border-image-slice: 1;
+        }
+        .hidden {
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out; /* Adjust the duration and easing as needed */
+        }
+        .hidden2 {
+            display: none;
+        }
+        .visible {
+            opacity: 1;
+            transition: opacity 0.5s ease-in-out; /* Adjust the duration and easing as needed */
+        }
+        .visible2 {
+            display: flex;
+        }
+        /*dropdown class with a similar visual style*/
+        .dropdown {
+            margin: 10px;
+            font-family: 'Courier New', monospace;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<div class="main-center" id="login">
+    <h1 class="title">Gartic Diffusion</h1>
+    <h2 class="normh2">like Gartic Phone but with more art theft</h2>
+    <div class="input-bar" style="width: 20%">
+        <input type="text" placeholder="your name here :3" id="nameinput">
+    </div>
+    <button class="button" onclick="addUser()" id="initButton">Initialize</button>
+
+</div>
+<div class="main-center hidden hidden2" id="whar">
+        
+        <div class="main-image">
+            <img src="test.jpg" id="realimagemain">
+        </div>
+        <div class="input-bar">
+            <input type="text" placeholder="What will you generate?" id="maininput">
+        </div>
+        <!--
+        <div class="message-window">
+            <div class="message-box">
+                <div class="text">who want backshots, 4k, max quality, granny died, sad, artstation, unreal engine, 4k, looksmaxxing
+                </div>
+            </div>
+            <div class="end-image">
+                <img src="test.jpg">
+            </div>
+        </div>
+        -->
+        <div style="display: flex; justify-content: space-between;">
+            <!--<div class="dropdown">
+                <label for="sample-mode">Sample Mode:</label>
+                <select id="sample-mode">
+                    <option value="default">Default</option>
+                    <option value="artsy">Artsy</option>
+                </select>
+            </div>-->
+            <div class="dropdown">
+                <label for="gen-mode">"Easy" Mode:</label>
+                <select id="gen-mode">
+                    <option value="disabled">Disabled</option>
+                    <option value="enabled">Enabled</option>
+                </select>
+            </div>
+        </div>
+        <button class="button" onclick="generate()" id="genButton">Submit</button>
+        <div class="smallh2" id="extrainfo">extra info here xddddddddd</div>
+</div>
+
+<!--websocket example script-->
+<script>
+    //this is terrible practice but idc if i get this working at all im happy
+    var username = ''
+
+    var url = "garticdiffusion.kotob.dev";
+
+    var ws = new WebSocket("wss://gdws.kotob.dev/");
+    ws.onopen = function() {
+        console.log("Connected");
+    };
+    ws.onmessage = function(evt) {
+        //console.log(evt.data);
+        //var data = JSON.parse(evt.data);
+        //if data is json, parse it, else, just set data to evt.data
+        var data = evt.data;
+        try {
+            data = JSON.parse(evt.data);
+        } catch (e) {
+            console.log("Not JSON");
+        }
+        if (data.type == "newRoundImage")
+        {
+            document.getElementById("realimagemain").src = data.url;
+            document.getElementById("extrainfo").textContent = `New image!`
+            document.getElementById("maininput").value = ``;
+            document.getElementById("genButton").style.display = "inline-block"
+        }
+        if (data.type == 'roundOver')
+        {
+            document.getElementById("extrainfo").textContent = `Round is over! Waiting for generation...`
+        }
+        if (data.type == 'PromptSubmitted' && document.getElementById("extrainfo").textContent != `Round is over! Waiting for generation...`)
+        {
+            document.getElementById("extrainfo").textContent = `Prompt submitted! Waiting for others...`
+            document.getElementById("genButton").style.display = "none";
+        }
+        if (data.type == 'gameOver')
+        {
+            document.getElementById("extrainfo").textContent = `Game over!`
+            addImages(data.message);
+        }
+    };
+    ws.onclose = function() {
+        console.log("Disconnected");
+        document.getElementById("extrainfo").textContent = `HEY YOU GOT DISCONNECTEWD LMAOAOOOOOO`
+    };
+
+    function generate() {
+        var prompt = document.getElementById("maininput").value;
+        if(document.getElementById("gen-mode").value == "enabled")
+        {
+            prompt += ", photography, render, detailed, masterpiece, 8k, (realistic, UE5, deviantart),"
+        }
+        var data = {
+            type: "promptSubmit",
+            name: username,
+            message: prompt
+        }   
+        ws.send(JSON.stringify(data));
+    }
+
+    function addUser() {
+        username = document.getElementById("nameinput").value
+        var data = {
+            type: "login",
+            name: username,
+            message: ``
+        }
+        ws.send(JSON.stringify(data));
+        //delete name input
+        //document.getElementById("nameinput").remove()
+        //delete initialize button
+        //document.getElementById("initButton").remove()
+        showMainPage();
+        document.getElementById("extrainfo").textContent = `Successfully initialized! You are now ${username}!`
+        
+    }
+
+    function addImages(json) {
+        var data = JSON.parse(json);
+        var processedData = [];
+        var processedPositions = [];
+
+        console.log(data)
+
+        //for each element in data, check the .position. create a new array containing every element with the same .position as each other
+        //or smth idk chatgpt did it s own thing
+        for (var i = 0; i < data.length; i++) {
+            var position = data[i].position;
+
+            // Check if the position has already been processed
+            if (processedPositions.includes(position)) {
+                continue;
+            }
+
+            var tempArray = [];
+
+            // Find all elements with the same position
+            for (var j = 0; j < data.length; j++) {
+                if (data[j].position == position) {
+                    tempArray.push(data[j]);
+                }
+            }
+
+            processedData.push(tempArray);
+            processedPositions.push(position);
+        }
+
+
+
+        console.log(processedData)
+
+        var newWhar = document.createElement("div");
+        newWhar.id = "newWhar";
+        newWhar.className = "end-center";
+        document.body.appendChild(newWhar);
+
+        var orderedData = [];
+        console.log("ordered data: " + orderedData)
+
+        for (var j = 0; j < processedData.length; j++)
+        {
+            //create new message-window
+            var newWindow = document.createElement("div");
+            newWindow.className = "message-window";
+            for(var i = 0; i < processedData[j].length; i++)
+            {
+                var newDiv = document.createElement("div");
+                newDiv.className = "message-box";
+                newDiv.innerHTML = `<div class="text"><b>${processedData[j][i].username}</b></div>\n<div class="text">${processedData[j][i].prompt}</div>`;
+                newWindow.appendChild(newDiv);
+                newDiv.classList.add("hidden");
+                orderedData.push(newDiv);
+                var newImg = document.createElement("img");
+                newImg.src = processedData[j][i].url;
+                newImg.className = "end-image";
+                newWindow.appendChild(newImg);
+                newImg.classList.add("hidden");
+                orderedData.push(newImg);
+            }
+            newWhar.appendChild(newWindow);
+        }
+        document.getElementById("whar").classList.add("hidden");
+        document.getElementById("whar").classList.add("hidden2");
+
+        //create a loop where every five seconds, remove .hidden from element i in orderedData
+        var i = 0;
+        var interval = setInterval(function() {
+            console.log("wsg")
+            if (i >= orderedData.length)
+            {
+                clearInterval(interval);
+                return;
+            }
+            orderedData[i].classList.remove("hidden");
+            i++;
+        }, 4000);
+    }
+
+    function showMainPage() {
+            var loginPage = document.getElementById('login');
+            var mainPage = document.getElementById('whar');
+
+            // Fade out the login page
+            loginPage.classList.add('hidden');
+
+            // Delay the display of the main page to allow the fade-out effect
+            setTimeout(function () {               
+                mainPage.classList.remove('hidden2');
+                mainPage.classList.remove('hidden');
+                loginPage.classList.add('hidden2');
+                // Remove the 'hidden' class from the main page, triggering fade-in
+                mainPage.classList.add('visible');
+            }, 500); // Should match the transition duration in milliseconds
+        }
+</script>
+
+</body>
+
+</html>
